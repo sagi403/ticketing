@@ -9,7 +9,7 @@ const setup = async () => {
   // Create an instance of the listener
   const listener = new OrderCreatedListener(natsWrapper.client);
 
-  // Create ans save a ticket
+  // Create and save a ticket
   const ticket = Ticket.build({
     title: "concert",
     price: 20,
@@ -37,3 +37,20 @@ const setup = async () => {
 
   return { listener, ticket, data, msg };
 };
+
+it("sets the userId of the ticket", async () => {
+  const { listener, ticket, data, msg } = await setup();
+
+  await listener.onMessage(data, msg);
+
+  const updatedTicket = await Ticket.findById(ticket.id);
+
+  expect(updatedTicket!.orderId).toEqual(data.id);
+});
+
+it("acks the message", async () => {
+  const { listener, data, msg } = await setup();
+  await listener.onMessage(data, msg);
+
+  expect(msg.ack).toHaveBeenCalled();
+});
