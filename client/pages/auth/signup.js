@@ -23,7 +23,7 @@ const signup = () => {
     <form onSubmit={onSubmit}>
       <h1>Sign Up</h1>
 
-      <div className="form-group">
+      <div className="form-group mb-3">
         <label>Email Address</label>
         <input
           value={email}
@@ -32,7 +32,7 @@ const signup = () => {
         />
       </div>
 
-      <div className="form-group">
+      <div className="form-group mb-3">
         <label>Password</label>
         <input
           value={password}
